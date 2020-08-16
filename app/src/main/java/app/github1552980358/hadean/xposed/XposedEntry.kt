@@ -18,7 +18,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  * @time    : 19:15
  **/
 
-class XposedEntry: IXposedHookLoadPackage, ServiceHooker, BroadcastReceiverHooker {
+class XposedEntry: IXposedHookLoadPackage, ServiceHooker, BroadcastReceiverHooker, ContextHooker {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         
@@ -72,6 +72,7 @@ class XposedEntry: IXposedHookLoadPackage, ServiceHooker, BroadcastReceiverHooke
             return
         }
         
+        hookContext(lpparam)
         hookService(lpparam)
         hookBroadcastReceiver(lpparam)
     }
