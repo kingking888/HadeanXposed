@@ -1,6 +1,5 @@
 package app.github1552980358.hadean.xposed
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import de.robv.android.xposed.XC_MethodReplacement
@@ -17,23 +16,23 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 interface BroadcastReceiverHooker {
     
-    fun hookBroadcastReceiver(lpparm: XC_LoadPackage.LoadPackageParam) {
-        hookConstructor(lpparm)
-        hookOnReceive(lpparm)
+    fun hookBroadcastReceiver(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+        hookConstructor(loadPackageParam)
+        hookOnReceive(loadPackageParam)
     }
     
-    private fun hookConstructor(lpparm: XC_LoadPackage.LoadPackageParam) {
-        XposedHelpers.findAndHookConstructor("android.content.BroadcastReceiver", lpparm.classLoader, object : XC_MethodReplacement() {
+    private fun hookConstructor(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+        XposedHelpers.findAndHookConstructor("android.content.BroadcastReceiver", loadPackageParam.classLoader, object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam?): Any? {
                 throw Exception()
             }
         })
     }
     
-    private fun hookOnReceive(lpparm: XC_LoadPackage.LoadPackageParam) {
+    private fun hookOnReceive(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
         XposedHelpers.findAndHookMethod(
             "android.content.BroadcastReceiver",
-            lpparm.classLoader,
+            loadPackageParam.classLoader,
             "onReceive",
             Context::class.java,
             Intent::class.java,

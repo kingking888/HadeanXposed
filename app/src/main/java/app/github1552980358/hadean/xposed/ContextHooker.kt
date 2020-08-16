@@ -18,18 +18,18 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 interface ContextHooker {
     
-    fun hookContext(lpparm: XC_LoadPackage.LoadPackageParam) {
-        hookStartActivity(lpparm)
-        hookStartService(lpparm)
+    fun hookContext(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+        hookStartActivity(loadPackageParam)
+        hookStartService(loadPackageParam)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            hookStartForegroundService(lpparm)
+            hookStartForegroundService(loadPackageParam)
         }
     }
     
-    private fun hookStartActivity(lpparm: XC_LoadPackage.LoadPackageParam) {
+    private fun hookStartActivity(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
         XposedHelpers.findAndHookMethod(
             "android.content.Context",
-            lpparm.classLoader,
+            loadPackageParam.classLoader,
             "startActivity",
             Intent::class.java,
             object: XC_MethodReplacement() {
@@ -39,7 +39,7 @@ interface ContextHooker {
             })
         XposedHelpers.findAndHookMethod(
             "android.content.Context",
-            lpparm.classLoader,
+            loadPackageParam.classLoader,
             "startActivity",
             Intent::class.java,
             Bundle::class.java,
@@ -50,10 +50,10 @@ interface ContextHooker {
             })
     }
     
-    private fun hookStartService(lpparm: XC_LoadPackage.LoadPackageParam) {
+    private fun hookStartService(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
         XposedHelpers.findAndHookMethod(
             "android.content.Context",
-            lpparm.classLoader,
+            loadPackageParam.classLoader,
             "startService",
             Intent::class.java,
             object: XC_MethodReplacement() {
@@ -64,10 +64,10 @@ interface ContextHooker {
     }
     
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun hookStartForegroundService(lpparm: XC_LoadPackage.LoadPackageParam) {
+    private fun hookStartForegroundService(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
         XposedHelpers.findAndHookMethod(
             "android.content.Context",
-            lpparm.classLoader,
+            loadPackageParam.classLoader,
             "startForegroundService",
             Intent::class.java,
             object: XC_MethodReplacement() {

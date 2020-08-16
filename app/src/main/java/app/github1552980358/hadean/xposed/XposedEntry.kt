@@ -2,10 +2,8 @@ package app.github1552980358.hadean.xposed
 
 import android.app.AndroidAppHelper
 import android.net.Uri
-import androidx.core.database.getStringOrNull
 import app.github1552980358.hadean.database.SQLHelper.Companion.COLUMN_APPLICATION_ID
 import app.github1552980358.hadean.database.SQLHelper.Companion.COLUMN_ENABLED
-import app.github1552980358.hadean.database.SQLHelper.Companion.DATABASE_NAME
 import app.github1552980358.hadean.database.SQLHelper.Companion.TABLE_APPLICATIONS_LIST
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -20,7 +18,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class XposedEntry: IXposedHookLoadPackage, ServiceHooker, BroadcastReceiverHooker, ContextHooker {
     
-    override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
         
         var hook = false
         
@@ -45,7 +43,7 @@ class XposedEntry: IXposedHookLoadPackage, ServiceHooker, BroadcastReceiverHooke
             }
             
             try {
-                if (cursor.getString(index) != lpparam.packageName) {
+                if (cursor.getString(index) != loadPackageParam.packageName) {
                     continue
                 }
             } catch (e: Exception) { return }
@@ -72,9 +70,9 @@ class XposedEntry: IXposedHookLoadPackage, ServiceHooker, BroadcastReceiverHooke
             return
         }
         
-        hookContext(lpparam)
-        hookService(lpparam)
-        hookBroadcastReceiver(lpparam)
+        hookContext(loadPackageParam)
+        hookService(loadPackageParam)
+        hookBroadcastReceiver(loadPackageParam)
     }
     
 }

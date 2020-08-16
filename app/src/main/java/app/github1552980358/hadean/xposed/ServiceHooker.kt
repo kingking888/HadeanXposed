@@ -15,14 +15,14 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 interface ServiceHooker {
     
-    fun hookService(lpparm: XC_LoadPackage.LoadPackageParam) {
-        hookConstructor(lpparm)
-        hookOnCreate(lpparm)
-        hookOnStartCommand(lpparm)
+    fun hookService(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+        hookConstructor(loadPackageParam)
+        hookOnCreate(loadPackageParam)
+        hookOnStartCommand(loadPackageParam)
     }
     
-    private fun hookConstructor(lpparm: XC_LoadPackage.LoadPackageParam) {
-        XposedHelpers.findAndHookConstructor("android.app.Service", lpparm.classLoader, object: XC_MethodReplacement() {
+    private fun hookConstructor(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+        XposedHelpers.findAndHookConstructor("android.app.Service", loadPackageParam.classLoader, object: XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam?): Any? {
                 // Just throw Exception to clean stack
                 throw Exception()
@@ -30,10 +30,10 @@ interface ServiceHooker {
         })
     }
     
-    private fun hookOnCreate(lpparm: XC_LoadPackage.LoadPackageParam) {
+    private fun hookOnCreate(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
         XposedHelpers.findAndHookMethod(
             "android.app.Service",
-            lpparm.classLoader,
+            loadPackageParam.classLoader,
             "onCreate",
             object: XC_MethodReplacement() {
                 override fun replaceHookedMethod(param: MethodHookParam?): Any? {
@@ -43,10 +43,10 @@ interface ServiceHooker {
             })
     }
     
-    private fun hookOnStartCommand(lpparm: XC_LoadPackage.LoadPackageParam) {
+    private fun hookOnStartCommand(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
         XposedHelpers.findAndHookMethod(
             "android.app.Service",
-            lpparm.classLoader, "onStartCommand",
+            loadPackageParam.classLoader, "onStartCommand",
             object: XC_MethodReplacement() {
                 override fun replaceHookedMethod(param: MethodHookParam?): Any? {
                     
