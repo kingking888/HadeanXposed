@@ -22,27 +22,20 @@ class SQLHelper(context: Context, version: Int):
         const val TABLE_APPLICATIONS_LIST = "Applications"
         
         const val COLUMN_APPLICATION_ID = "id"
-        
-        const val COLUMN_ENABLED = "enabled"
+        const val COLUMN_IS_LOCKED = "is_locked"
+        const val COLUMN_LOCK_POLICY = "lock_policy"
         
     }
     
     override fun onCreate(db: SQLiteDatabase) {
         db.beginTransaction()
         db.execSQL(
-            "CREATE TABLE $TABLE_APPLICATIONS_LIST ( " +
-                "$COLUMN_APPLICATION_ID VARCHAR(100) NOT NULL , " +
-                "$COLUMN_ENABLED INTEGER NOT NULL , " +
-                "PRIMARY KEY ($COLUMN_APPLICATION_ID)" +
-                ")"
+            "CREATE TABLE $TABLE_APPLICATIONS_LIST ( $COLUMN_APPLICATION_ID VARCHAR(100) NOT NULL PRIMARY KEY, $COLUMN_IS_LOCKED BOOLEAN NOT NULL , $COLUMN_LOCK_POLICY INTEGER NOT NULL )"
         )
     }
     
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-    }
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {  }
     
-    override fun onDowngrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-    
-    }
+    override fun onDowngrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {  }
     
 }
