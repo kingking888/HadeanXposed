@@ -4,8 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
-import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedHelpers
+import app.github1552980358.hadean.xposed.base.BaseHooker
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 /**
@@ -16,7 +15,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  * @time    : 22:26
  **/
 
-interface ContextHooker {
+interface ContextHooker: BaseHooker {
     
     fun hookContext(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
         hookStartActivity(loadPackageParam)
@@ -27,54 +26,92 @@ interface ContextHooker {
     }
     
     private fun hookStartActivity(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-        XposedHelpers.findAndHookMethod(
+        replaceMethod(
             "android.content.Context",
-            loadPackageParam.classLoader,
+            loadPackageParam,
             "startActivity",
-            Intent::class.java,
-            object: XC_MethodReplacement() {
-                override fun replaceHookedMethod(param: MethodHookParam?): Any? {
-                    return null
-                }
-            })
-        XposedHelpers.findAndHookMethod(
+            mutableListOf(Intent::class.java)
+        ) {  }
+    
+        replaceMethod(
             "android.content.Context",
-            loadPackageParam.classLoader,
+            loadPackageParam,
             "startActivity",
-            Intent::class.java,
-            Bundle::class.java,
-            object: XC_MethodReplacement() {
-                override fun replaceHookedMethod(param: MethodHookParam?): Any? {
-                    return null
-                }
-            })
+            mutableListOf(Intent::class.java, Bundle::class.java)
+        ) {  }
+        
+        /**
+         * XposedHelpers.findAndHookMethod(
+         *     "android.content.Context",
+         *     loadPackageParam.classLoader,
+         *     "startActivity",
+         *     Intent::class.java,
+         *     object: XC_MethodReplacement() {
+         *         override fun replaceHookedMethod(param: MethodHookParam?): Any? {
+         *             return null
+         *         }
+         *     })
+         **/
+        
+        /**
+         * XposedHelpers.findAndHookMethod(
+         *     "android.content.Context",
+         *     loadPackageParam.classLoader,
+         *     "startActivity",
+         *     Intent::class.java,
+         *     Bundle::class.java,
+         *     object: XC_MethodReplacement() {
+         *         override fun replaceHookedMethod(param: MethodHookParam?): Any? {
+         *             return null
+         *         }
+         *     })
+         **/
     }
     
     private fun hookStartService(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-        XposedHelpers.findAndHookMethod(
+        replaceMethod(
             "android.content.Context",
-            loadPackageParam.classLoader,
+            loadPackageParam,
             "startService",
-            Intent::class.java,
-            object: XC_MethodReplacement() {
-                override fun replaceHookedMethod(param: MethodHookParam?): Any? {
-                    return null
-                }
-            })
+            mutableListOf(Intent::class.java)
+        ) {  }
+        
+        /**
+         * XposedHelpers.findAndHookMethod(
+         *     "android.content.Context",
+         *     loadPackageParam.classLoader,
+         *     "startService",
+         *     Intent::class.java,
+         *     object: XC_MethodReplacement() {
+         *         override fun replaceHookedMethod(param: MethodHookParam?): Any? {
+         *             return null
+         *         }
+         *     })
+         **/
     }
     
     @RequiresApi(Build.VERSION_CODES.O)
     private fun hookStartForegroundService(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-        XposedHelpers.findAndHookMethod(
+        
+        replaceMethod(
             "android.content.Context",
-            loadPackageParam.classLoader,
+            loadPackageParam,
             "startForegroundService",
-            Intent::class.java,
-            object: XC_MethodReplacement() {
-                override fun replaceHookedMethod(param: MethodHookParam?): Any? {
-                    return null
-                }
-            })
+            mutableListOf(Intent::class.java)
+        ) {  }
+        
+        /**
+         * XposedHelpers.findAndHookMethod(
+         *     "android.content.Context",
+         *     loadPackageParam.classLoader,
+         *     "startForegroundService",
+         *     Intent::class.java,
+         *     object: XC_MethodReplacement() {
+         *         override fun replaceHookedMethod(param: MethodHookParam?): Any? {
+         *             return null
+         *         }
+         *     })
+         **/
     }
     
 }
