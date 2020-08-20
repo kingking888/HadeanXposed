@@ -3,10 +3,10 @@ package app.github1552980358.hadean.xposed
 import android.app.AndroidAppHelper
 import android.net.Uri
 import app.github1552980358.hadean.BuildConfig
+import app.github1552980358.hadean.database.DatabaseProvider.Companion.CONTEXT_URI
 import app.github1552980358.hadean.database.SQLHelper.Companion.COLUMN_APPLICATION_ID
 import app.github1552980358.hadean.database.SQLHelper.Companion.COLUMN_IS_LOCKED
 import app.github1552980358.hadean.database.SQLHelper.Companion.COLUMN_LOCK_POLICY
-import app.github1552980358.hadean.database.SQLHelper.Companion.TABLE_APPLICATIONS_LIST
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -18,7 +18,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  * @time    : 19:15
  **/
 
-class XposedEntry: IXposedHookLoadPackage, ContextHooker, ActivityHooker, ServiceHooker, BroadcastReceiverHooker {
+class XposedEntry: IXposedHookLoadPackage,
+    ContextHooker, ApplicationHooker, ActivityHooker, ServiceHooker, BroadcastReceiverHooker {
     
     companion object {
         
@@ -39,7 +40,7 @@ class XposedEntry: IXposedHookLoadPackage, ContextHooker, ActivityHooker, Servic
         
         val cursor = AndroidAppHelper.currentApplication()
             .contentResolver.query(
-                Uri.parse("content://app.github1552980358.hadean/$TABLE_APPLICATIONS_LIST"),
+                Uri.parse(CONTEXT_URI),
                 arrayOf(COLUMN_APPLICATION_ID, COLUMN_IS_LOCKED, COLUMN_LOCK_POLICY),
                 null,
                 null,
@@ -100,8 +101,12 @@ class XposedEntry: IXposedHookLoadPackage, ContextHooker, ActivityHooker, Servic
     
     private fun appUnlocked(loadPackageParam: XC_LoadPackage.LoadPackageParam, policy: Int) {
         when (policy) {
-            LOCK_POLICY_LOCK_EXITED -> {  }
-            LOCK_POLICY_LOCK_SCREEN_OFF -> {  }
+            LOCK_POLICY_LOCK_EXITED -> {
+            
+            }
+            LOCK_POLICY_LOCK_SCREEN_OFF -> {
+                listenToScreen(loadPackageParam)
+            }
             LOCK_POLICY_LOCK_MANUALLY -> {  }
             else -> {  }
         }

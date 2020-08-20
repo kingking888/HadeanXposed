@@ -27,6 +27,8 @@ class DatabaseProvider : ContentProvider() {
         const val MATCHER_APPLICATION = 0
 
         const val RETURN_INT_ERROR = 0
+        
+        const val CONTEXT_URI = "content://app.github1552980358.hadean/$TABLE_APPLICATIONS_LIST"
 
     }
 

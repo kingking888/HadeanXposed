@@ -3,14 +3,12 @@ package app.github1552980358.hadean.xposed
 import android.app.Activity
 import android.os.Bundle
 import app.github1552980358.hadean.xposed.base.BaseHooker
-import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 /**
  * [ActivityHooker]
  * @author  : 1552980328
- * @since   :
+ * @since   : 0.1
  * @date    : 2020/8/18
  * @time    : 15:44
  **/
