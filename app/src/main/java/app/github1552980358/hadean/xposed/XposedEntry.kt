@@ -42,7 +42,7 @@ class XposedEntry: IXposedHookLoadPackage,
             .contentResolver.query(
                 Uri.parse(CONTEXT_URI),
                 arrayOf(COLUMN_APPLICATION_ID, COLUMN_IS_LOCKED, COLUMN_LOCK_POLICY),
-                null,
+                "$COLUMN_APPLICATION_ID=${loadPackageParam.packageName}",
                 null,
                 null
             )
@@ -104,9 +104,7 @@ class XposedEntry: IXposedHookLoadPackage,
             LOCK_POLICY_LOCK_EXITED -> {
             
             }
-            LOCK_POLICY_LOCK_SCREEN_OFF -> {
-                listenToScreen(loadPackageParam)
-            }
+            LOCK_POLICY_LOCK_SCREEN_OFF -> listenToScreen(loadPackageParam)
             LOCK_POLICY_LOCK_MANUALLY -> {  }
             else -> {  }
         }
