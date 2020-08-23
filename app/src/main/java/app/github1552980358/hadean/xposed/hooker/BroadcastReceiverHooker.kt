@@ -1,4 +1,4 @@
-package app.github1552980358.hadean.xposed
+package app.github1552980358.hadean.xposed.hooker
 
 import android.content.Context
 import android.content.Intent

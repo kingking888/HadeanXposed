@@ -7,6 +7,11 @@ import app.github1552980358.hadean.database.DatabaseProvider.Companion.CONTEXT_U
 import app.github1552980358.hadean.database.SQLHelper.Companion.COLUMN_APPLICATION_ID
 import app.github1552980358.hadean.database.SQLHelper.Companion.COLUMN_IS_LOCKED
 import app.github1552980358.hadean.database.SQLHelper.Companion.COLUMN_LOCK_POLICY
+import app.github1552980358.hadean.xposed.hooker.ActivityHooker
+import app.github1552980358.hadean.xposed.hooker.ApplicationHooker
+import app.github1552980358.hadean.xposed.hooker.BroadcastReceiverHooker
+import app.github1552980358.hadean.xposed.hooker.ContextHooker
+import app.github1552980358.hadean.xposed.hooker.ServiceHooker
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
