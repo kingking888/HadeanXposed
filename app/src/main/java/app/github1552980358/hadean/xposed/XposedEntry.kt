@@ -27,8 +27,10 @@ class XposedEntry: IXposedHookLoadPackage,
         const val APP_LOCKED = 1
         
         const val LOCK_POLICY_LOCK_EXITED = 0
-        const val LOCK_POLICY_LOCK_SCREEN_OFF = 1
-        const val LOCK_POLICY_LOCK_MANUALLY = 2
+        const val LOCK_POLICY_LOCK_MANUALLY = 1
+        const val LOCK_POLICY_LOCK_SCREEN_OFF_INSTANT = 2
+        const val LOCK_POLICY_LOCK_SCREEN_OFF_DELAY_5_MIN = 3
+        const val LOCK_POLICY_LOCK_SCREEN_OFF_DELAY_10_MIN = 4
     
     }
     
@@ -101,10 +103,10 @@ class XposedEntry: IXposedHookLoadPackage,
     
     private fun appUnlocked(loadPackageParam: XC_LoadPackage.LoadPackageParam, policy: Int) {
         when (policy) {
-            LOCK_POLICY_LOCK_EXITED -> {
-            
-            }
-            LOCK_POLICY_LOCK_SCREEN_OFF -> listenToScreen(loadPackageParam)
+            LOCK_POLICY_LOCK_EXITED -> {  }
+            LOCK_POLICY_LOCK_SCREEN_OFF_INSTANT -> killInstant(loadPackageParam)
+            LOCK_POLICY_LOCK_SCREEN_OFF_DELAY_5_MIN -> killDelay5Min(loadPackageParam)
+            LOCK_POLICY_LOCK_SCREEN_OFF_DELAY_10_MIN -> killDelay10Min(loadPackageParam)
             LOCK_POLICY_LOCK_MANUALLY -> {  }
             else -> {  }
         }
