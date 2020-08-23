@@ -1,11 +1,13 @@
 package app.github1552980358.hadean.xposed.hooker
 
+import android.app.AndroidAppHelper
 import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import app.github1552980358.hadean.receiver.ExternalBroadcastReceiver.Companion.ACTION_LOCK_APPLICATION
+import app.github1552980358.hadean.receiver.ExternalBroadcastReceiver.Companion.ACTION_LOCK_APPLICATION_NAME
 import app.github1552980358.hadean.xposed.base.BaseHooker
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
@@ -104,7 +106,10 @@ interface ApplicationHooker: BaseHooker {
     
     private fun killApplication(context: Context?, broadcastReceiver: BroadcastReceiver) {
         // Call to lock and kill
-        context?.sendBroadcast(Intent(ACTION_LOCK_APPLICATION))
+        context?.sendBroadcast(
+            Intent(ACTION_LOCK_APPLICATION)
+                .putExtra(ACTION_LOCK_APPLICATION_NAME, AndroidAppHelper.currentPackageName())
+        )
         // Remove this receiver
         context?.unregisterReceiver(broadcastReceiver)
         // Kill app and clear VM stack
