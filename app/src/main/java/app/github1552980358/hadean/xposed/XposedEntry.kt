@@ -108,7 +108,7 @@ class XposedEntry: IXposedHookLoadPackage,
     
     private fun appUnlocked(loadPackageParam: XC_LoadPackage.LoadPackageParam, policy: Int) {
         when (policy) {
-            LOCK_POLICY_LOCK_EXITED -> {  }
+            LOCK_POLICY_LOCK_EXITED -> listenToLongBack(loadPackageParam)
             LOCK_POLICY_LOCK_SCREEN_OFF_INSTANT -> killInstant(loadPackageParam)
             LOCK_POLICY_LOCK_SCREEN_OFF_DELAY_5_MIN -> killDelay5Min(loadPackageParam)
             LOCK_POLICY_LOCK_SCREEN_OFF_DELAY_10_MIN -> killDelay10Min(loadPackageParam)
