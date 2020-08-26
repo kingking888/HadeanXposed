@@ -36,32 +36,43 @@ interface RootHelper {
                 try {
                     outputStream?.use { outputStream ->
                         outputStream.bufferedWriter().use { bufferedWriter ->
-                            try {
-                                commands.forEach { command ->
+                            commands.forEach { command ->
+                                try {
                                     bufferedWriter.write(command)
                                     bufferedWriter.newLine()
+                                } catch (e: Exception) {
                                 }
-                            } catch (e: Exception) {  }
+                            }
                             try {
                                 bufferedWriter.write("exit")
                                 bufferedWriter.newLine()
                                 bufferedWriter.flush()
-                            } catch (e: Exception) {  }
+                            } catch (e: Exception) {
+                            }
                         }
                         outputStream.flush()
                     }
-                } catch (e: Exception) {  }
-                try { waitFor() } catch (e: Exception) {
+                } catch (e: Exception) {
+                }
+                try {
+                    waitFor()
+                } catch (e: Exception) {
                     return null
                 }
                 try {
                     inputStream.use { inputStream ->
                         inputStream.bufferedReader().use { bufferedReader ->
                             // Get list from output, otherwise set as null
-                            list = try { bufferedReader.readLines() } catch (e: Exception) { null }
+                            list = try {
+                                bufferedReader.readLines()
+                            } catch (e: Exception) {
+                                null
+                            }
                         }
                     }
-                } catch (e: Exception) { return null }
+                } catch (e: Exception) {
+                    return null
+                }
             }
         } catch (e: Exception) {
             return null
